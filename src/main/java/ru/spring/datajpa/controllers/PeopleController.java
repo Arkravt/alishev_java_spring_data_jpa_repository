@@ -7,23 +7,34 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.spring.datajpa.dao.PersonDAO;
+import ru.spring.datajpa.models.Item;
 import ru.spring.datajpa.models.Person;
+import ru.spring.datajpa.service.ItemsService;
 import ru.spring.datajpa.service.PeopleService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
 
     private final PeopleService peopleService;
+    private final ItemsService itemsService;
 
     @Autowired
-    public PeopleController(PeopleService peopleService) {
+    public PeopleController(PeopleService peopleService, ItemsService itemsService) {
         this.peopleService = peopleService;
+        this.itemsService = itemsService;
     }
 
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("people", peopleService.findAll());
+
+        List<Item> items1 = itemsService.findByItemName("BMW");
+        List<Item> items2 = itemsService.findByOwner(peopleService.findOne(2));
+        List<Person> persons1 = peopleService.findByNameStartingWith("Ta");
+
         return "people/index";
     }
 

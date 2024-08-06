@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
+
 @Entity
 @Table(name = "person")
 public class Person {
@@ -33,6 +35,10 @@ public class Person {
     @Column(name = "address")
     private String address;
 
+    @OneToMany(mappedBy = "owner")
+    private List<Item> items;
+
+
     public Person() {
 
     }
@@ -43,6 +49,7 @@ public class Person {
         this.email = email;
         this.address = address;
     }
+
 
     public int getId() {
         return id;
@@ -82,5 +89,13 @@ public class Person {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }

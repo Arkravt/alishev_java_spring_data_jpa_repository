@@ -3,6 +3,7 @@ package ru.spring.datajpa.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.spring.datajpa.models.Item;
 import ru.spring.datajpa.repositories.PeopleRepository;
 import ru.spring.datajpa.models.Person;
 
@@ -12,7 +13,6 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 public class PeopleService {
-
     private final PeopleRepository peopleRepository;
 
     @Autowired
@@ -45,4 +45,24 @@ public class PeopleService {
         peopleRepository.deleteById(id);
     }
 
+    // Кастомные Spring Data Jpa методы
+    public List<Person> findByName(String name) {
+        return peopleRepository.findByName(name);
+    }
+
+    public List<Person> findByEmail(String email) {
+        return peopleRepository.findByEmail(email);
+    }
+
+    public List<Person> findByNameOrEmail(String name, String email) {
+        return peopleRepository.findByNameOrEmail(name, email);
+    }
+
+    public List<Person> findByNameOrderByAge(String name) {
+        return peopleRepository.findByNameOrderByAge(name);
+    }
+
+    public List<Person> findByNameStartingWith(String name) {
+        return peopleRepository.findByNameStartingWith(name);
+    }
 }
