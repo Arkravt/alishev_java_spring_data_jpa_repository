@@ -19,3 +19,7 @@ INSERT INTO Item(person_id, item_name) VALUES (1, 'BMW');
 INSERT INTO Item(person_id, item_name) VALUES (2, 'MERS');
 INSERT INTO Item(person_id, item_name) VALUES (2, 'TV');
 INSERT INTO Item(person_id, item_name) VALUES (1, 'mac');
+
+ALTER TABLE Person ADD COLUMN date_of_birth DATE;
+ALTER TABLE Person ADD COLUMN created_at TIMESTAMP;
+

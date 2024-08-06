@@ -7,6 +7,7 @@ import ru.spring.datajpa.models.Item;
 import ru.spring.datajpa.repositories.PeopleRepository;
 import ru.spring.datajpa.models.Person;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class PeopleService {
 
     @Transactional
     public void save(Person person) {
+        person.setCreatedAt(new Date());
         peopleRepository.save(person);
     }
 
