@@ -1,5 +1,6 @@
 package ru.spring.datajpa.dao;
 
+import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,52 +13,21 @@ import java.util.List;
 @Component
 public class PersonDAO {
 
-    private final SessionFactory sessionFactory;
+    private final EntityManager entityManager;
 
     @Autowired
-    public PersonDAO(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    @Transactional(readOnly = true)
-    public List<Person> index() {
-        Session session = sessionFactory.getCurrentSession();
-
-        return session.createQuery("FROM Person", Person.class).getResultList();
-    }
-
-    @Transactional(readOnly = true)
-    public Person show(int id) {
-        Session session = sessionFactory.getCurrentSession();
-
-        return session.get(Person.class, id);
+    public PersonDAO(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Transactional
-    public void save(Person person) {
-        Session session = sessionFactory.getCurrentSession();
+    public void testProblemN1() {
+        Session session = entityManager.unwrap(Session.class);
 
-        session.save(person);
-    }
+        List<Person> people = session.createQuery("select p from Person p LEFT JOIN FETCH p.items").getResultList();
 
-    @Transactional
-    public void update(int id,Person updatedPerson) {
-        Session session = sessionFactory.getCurrentSession();
-
-        session.update(updatedPerson);
-//        OR
-//        Person personToBeUpdated = session.get(Person.class, id);
-//        personToBeUpdated.setName(updatedPerson.getName());
-//        personToBeUpdated.setAge(updatedPerson.getAge());
-//        personToBeUpdated.setEmail(updatedPerson.getEmail());
-//        personToBeUpdated.setAddress(updatedPerson.getAddress());
-    }
-
-    @Transactional
-    public void delete(int id) {
-        Session session = sessionFactory.getCurrentSession();
-
-        Person person = session.get(Person.class, id);
-        session.remove(person);
+        for (Person person : people) {
+            System.out.println("Person " + person.getName() + " has: " + person.getItems());
+        }
     }
 }

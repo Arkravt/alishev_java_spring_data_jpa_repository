@@ -26,6 +26,13 @@ public class Item {
         this.owner = owner;
     }
 
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", itemName='" + itemName + '\'' +
+                '}';
+    }
 
     public int getId() {
         return id;

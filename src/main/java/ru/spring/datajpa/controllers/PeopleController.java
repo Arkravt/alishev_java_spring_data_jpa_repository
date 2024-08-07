@@ -21,10 +21,13 @@ public class PeopleController {
     private final PeopleService peopleService;
     private final ItemsService itemsService;
 
+    private final PersonDAO personDAO;
+
     @Autowired
-    public PeopleController(PeopleService peopleService, ItemsService itemsService) {
+    public PeopleController(PeopleService peopleService, ItemsService itemsService, PersonDAO personDAO) {
         this.peopleService = peopleService;
         this.itemsService = itemsService;
+        this.personDAO = personDAO;
     }
 
     @GetMapping()
@@ -34,6 +37,11 @@ public class PeopleController {
         List<Item> items1 = itemsService.findByItemName("BMW");
         List<Item> items2 = itemsService.findByOwner(peopleService.findOne(2));
         List<Person> persons1 = peopleService.findByNameStartingWith("Ta");
+
+        // Тестирую решение проблемы N + 1
+        System.out.println("Problem N + 1 TEST");
+        personDAO.testProblemN1();
+        // Тестирую решение проблемы N + 1
 
         return "people/index";
     }
